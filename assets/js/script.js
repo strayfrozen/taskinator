@@ -1,5 +1,7 @@
+var taskIdCounter = 0;
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+
 
 var taskFormHandler = function(event) {
   event.preventDefault();
@@ -24,20 +26,23 @@ if (!taskNameInput || !taskTypeInput) {
   createTaskEl(taskDataObj);
 };
 
-var createTaskEl = function (taskDataObj) {
-  // create list item
-  var listItemEl = document.createElement("li");
-  listItemEl.className = "task-item";
-
-  // create div to hold task info and add to list item
-  var taskInfoEl = document.createElement("div");
-  taskInfoEl.className = "task-info";
-  taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
-  listItemEl.appendChild(taskInfoEl);
-
-  // add entire list item to list
-  tasksToDoEl.appendChild(listItemEl);
-};
+var createTaskEl = function(taskDataObj) {
+    var listItemEl = document.createElement("li");
+    listItemEl.className = "task-item";
+  
+    // add task id as a custom attribute
+    listItemEl.setAttribute("data-task-id", taskIdCounter);
+  
+    var taskInfoEl = document.createElement("div");
+    taskInfoEl.className = "task-info";
+    taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
+    listItemEl.appendChild(taskInfoEl);
+  
+    tasksToDoEl.appendChild(listItemEl);
+  
+    // increase task counter for next unique id
+    taskIdCounter++;
+  };
 
 formEl.addEventListener("submit", taskFormHandler);
 
